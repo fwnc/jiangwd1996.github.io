@@ -168,19 +168,190 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-day-2019-04-26" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-2019.04.27_gitbookbuild" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/26/day-2019-04-26/">博客文章加密</a>
+      <a class="article-title" href="/2019/04/27/2019.04.27_gitbookbuild/">gitbook build 生成的HTML无法跳转问题</a>
     </h1>
   
 
         
-        <a href="/2019/04/26/day-2019-04-26/" class="archive-article-date">
+        <a href="/2019/04/27/2019.04.27_gitbookbuild/" class="archive-article-date">
+  	<time datetime="2019-04-27T15:34:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/assets/blogimg/003.jpg" alt><br>由于gitbook版本过高导致生成的html打开后无法跳转章节</p>
+<p>gitbook降低版本到 <strong>2.6.7</strong> 就可以了</p>
+<h3 id="1-总体方法"><a href="#1-总体方法" class="headerlink" title="1.总体方法"></a>1.总体方法</h3><p>使用如下命令</p>
+<p><code>gitbook build --gitbook=2.6.7</code></p>
+<p>如果遇到：</p>
+<p><code>Error loading version latest: Error: Cannot find module &#39;internal/util/types&#39;</code>  </p>
+<hr>
+<blockquote>
+<p><strong>将node版本降低:</strong></p>
+<ul>
+<li><h4 id="linux-amp-ubuntu-环境"><a href="#linux-amp-ubuntu-环境" class="headerlink" title="linux &amp; ubuntu 环境"></a>linux &amp; ubuntu 环境</h4><ol>
+<li>安装node管理 n<ul>
+<li><code>sudo npm install -g n</code></li>
+</ul>
+</li>
+<li>降低版本，更新npm<ul>
+<li><code>sudo n 6</code></li>
+</ul>
+</li>
+<li>安装npm<ul>
+<li><code>sudo npm install npm -g</code> </li>
+</ul>
+</li>
+</ol>
+</li>
+<li><h4 id="window-环境"><a href="#window-环境" class="headerlink" title="window 环境"></a>window 环境</h4><ul>
+<li>nvm管理node版本<ul>
+<li><code>nvm install 6.16.0</code></li>
+<li><code>nvm use 6.16.0</code></li>
+</ul>
+</li>
+<li>因为切换了新的node环境需要重新安装gitbook-cli<ul>
+<li><code>npm install -g gitbook-cli</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<hr>
+<ul>
+<li><p>此时运行gitbook2.6.7的命令即可。  </p>
+<ul>
+<li><code>gitbook build --gitbook=2.6.7</code></li>
+</ul>
+</li>
+<li><p>待转换完成后，将npm版本（例如11.11.1）切回来即可,以免影响其他模块</p>
+<ul>
+<li>linux &amp; ubuntu<ul>
+<li><code>sudo n 11.11.1</code></li>
+</ul>
+</li>
+<li>window<ul>
+<li><code>nvm use 你的最新版</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>虽然可以生成HTML并可以跳转，但是生成的HTML无法使用search功能，因为search-pro插件需要gitbook版本大于或等于3.0才能使用</p>
+</blockquote>
+<h3 id="2-nvm的安装与使用"><a href="#2-nvm的安装与使用" class="headerlink" title="2.nvm的安装与使用"></a>2.nvm的安装与使用</h3><p>所谓nvm就是一个可以让你在同一台机器上安装和切换不同版本node的工具。这里是一篇安装及使用教程。</p>
+<h4 id="第一步：下载nvm"><a href="#第一步：下载nvm" class="headerlink" title="第一步：下载nvm"></a><strong>第一步：下载nvm</strong></h4><p>到github上下载最新版本<a href="https://github.com/coreybutler/nvm-windows/releases" target="_blank" rel="noopener">https://github.com/coreybutler/nvm-windows/releases</a></p>
+<ul>
+<li>nvm-noinstall.zip： 这个是绿色免安装版本，但是使用之前需要配置</li>
+<li>nvm-setup.zip：这是一个安装包，下载之后点击安装，无需配置就可以使用，方便。</li>
+<li>Source code(zip)：zip压缩的源码</li>
+<li>Sourc code(tar.gz)：tar.gz的源码，一般用于*nix系统</li>
+</ul>
+<h4 id="第二部：安装"><a href="#第二部：安装" class="headerlink" title="第二部：安装"></a><strong>第二部：安装</strong></h4><p><img src="/assets/blogimg/003_01.png" alt></p>
+<p>之后，按照提示完成安装即可，安装完成后可以检测一下是否安装成功<br>在命令行cmd输入<code>nvm</code>，如果出现nvm版本号和一系列帮助指令，则说明nvm安装成功；否则，可能会提示nvm: command not found</p>
+<h4 id="第三步：修改settings-txt"><a href="#第三步：修改settings-txt" class="headerlink" title="第三步：修改settings.txt"></a><strong>第三步：修改settings.txt</strong></h4><p>在你安装的目录下找到settings.txt文件，打开后加上<br>node_mirror: <a href="https://npm.taobao.org/mirrors/node/" target="_blank" rel="noopener">https://npm.taobao.org/mirrors/node/</a><br>npm_mirror: <a href="https://npm.taobao.org/mirrors/npm/" target="_blank" rel="noopener">https://npm.taobao.org/mirrors/npm/</a></p>
+<p><img src="/assets/blogimg/003_02.png" alt></p>
+<p>这一步主要是将npm镜像改为淘宝的镜像，可以提高下载速度。</p>
+<p>同时在系统环境中设置路径<br><img src="/assets/blogimg/003_03.png" alt></p>
+<h4 id="第四步：使用"><a href="#第四步：使用" class="headerlink" title="第四步：使用"></a><strong>第四步：使用</strong></h4><ul>
+<li><code>nvm arch [32|64]</code>： 显示node是运行在32位还是64位模式。指定32或64来覆盖默认体系结构。<br>-<code>nvm install &lt;version&gt; [arch]</code>：该可以是node.js版本或最新稳定版本latest。（可选[arch]）指定安装32位或64位版本（默认为系统arch）。设置[arch]为all以安装32和64位版本。在命令后面添加–insecure，可以绕过远端下载服务器的SSL验证。</li>
+<li><code>nvm list [available]</code>：列出已经安装的node.js版本。可选的available，显示可下载版本的部分列表。这个命令可以简写为nvm ls [available]。</li>
+<li><code>nvm on</code>： 启用node.js版本管理。</li>
+<li><code>nvm off</code>： 禁用node.js版本管理(不卸载任何东西)</li>
+<li><code>nvm proxy [url]</code>： 设置用于下载的代理。留[url]空白，以查看当前的代理。设置[url]为none删除代理。</li>
+<li><code>nvm node_mirror [url]</code>：设置node镜像，默认为<a href="https://nodejs.org/dist/" target="_blank" rel="noopener">https://nodejs.org/dist/</a>.。可以设置为淘宝的镜像<a href="https://npm.taobao.org/mirrors/node/" target="_blank" rel="noopener">https://npm.taobao.org/mirrors/node/</a></li>
+<li><code>nvm npm_mirror [url]</code>：设置npm镜像，默认为<a href="https://github.com/npm/npm/archive/" target="_blank" rel="noopener">https://github.com/npm/npm/archive/</a>。可以设置为淘宝的镜像<a href="https://npm.taobao.org/mirrors/npm/" target="_blank" rel="noopener">https://npm.taobao.org/mirrors/npm/</a></li>
+<li><code>nvm uninstall &lt;version&gt;</code>： 卸载指定版本的nodejs。</li>
+<li><code>nvm use [version] [arch]</code>： 切换到使用指定的nodejs版本。可以指定32/64位[arch]。<br>-<code>nvm use &lt;arch&gt;</code>：将继续使用所选版本，但根据提供的值切换到32/64位模式</li>
+<li><code>nvm root [path]</code>： 设置 nvm 存储node.js不同版本的目录 ,如果未设置，将使用当前目录。<br>-<code>nvm version</code>： 显示当前运行的nvm版本，可以简写为<code>nvm v</code></li>
+</ul>
+<p>首先，使用<code>nvm list</code>查看目前已经安装的版本</p>
+<p><code>nvm list available</code> 显示可下载版本的部分列表<br><code>nvm install 版本号</code> 安装指定的版本的nodejs<br><code>nvm use 版本号</code> 使用指定版本的nodejs</p>
+<h4 id="第五步：测试"><a href="#第五步：测试" class="headerlink" title="第五步：测试"></a><strong>第五步：测试</strong></h4><ul>
+<li>在cmd中输入nvm，检测是否安装成功</li>
+<li>不成功则重新安装</li>
+<li>在cmd中输入npm，检测是否安装成功</li>
+<li>不成功则调用<code>nvm use 高版本号</code>再调用<code>nvm use 低版本号</code>，后再次输入npm</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">gitbook</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/27/2019.04.27_gitbookbuild/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+
+  
+    <article id="post-2019.04.26_encrypt" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/26/2019.04.26_encrypt/">博客文章加密</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/26/2019.04.26_encrypt/" class="archive-article-date">
   	<time datetime="2019-04-26T15:34:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-26</time>
 </a>
         
@@ -190,7 +361,7 @@
       
         <p><img src="/assets/blogimg/002.jpg" alt><br>
         
-          <a class="article-more-a" href="/2019/04/26/day-2019-04-26/#more">more >></a>
+          <a class="article-more-a" href="/2019/04/26/2019.04.26_encrypt/#more">more >></a>
         
       
 
@@ -214,7 +385,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/26/day-2019-04-26/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/04/26/2019.04.26_encrypt/">展开全文 >></a>
         </p>
       
 
@@ -246,19 +417,19 @@
 
 
   
-    <article id="post-day-2019-04-25" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-2019.04.25_better" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/25/day-2019-04-25/">hexo博客进阶功能</a>
+      <a class="article-title" href="/2019/04/25/2019.04.25_better/">hexo博客进阶功能</a>
     </h1>
   
 
         
-        <a href="/2019/04/25/day-2019-04-25/" class="archive-article-date">
+        <a href="/2019/04/25/2019.04.25_better/" class="archive-article-date">
   	<time datetime="2019-04-25T15:34:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-25</time>
 </a>
         
@@ -273,7 +444,7 @@
 <li>我这里是.cn结尾的域名。</li>
 </ul>
         
-          <a class="article-more-a" href="/2019/04/25/day-2019-04-25/#more">more >></a>
+          <a class="article-more-a" href="/2019/04/25/2019.04.25_better/#more">more >></a>
         
       
 
@@ -297,7 +468,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/25/day-2019-04-25/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/04/25/2019.04.25_better/">展开全文 >></a>
         </p>
       
 
@@ -329,19 +500,19 @@
 
 
   
-    <article id="post-day-2019-04-24" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-2019.04.24_blogphotoes" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/24/day-2019-04-24/">Hexo实现相册功能</a>
+      <a class="article-title" href="/2019/04/24/2019.04.24_blogphotoes/">Hexo实现相册功能</a>
     </h1>
   
 
         
-        <a href="/2019/04/24/day-2019-04-24/" class="archive-article-date">
+        <a href="/2019/04/24/2019.04.24_blogphotoes/" class="archive-article-date">
   	<time datetime="2019-04-24T15:34:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-24</time>
 </a>
         
@@ -359,7 +530,7 @@
 <h3 id="2、方案"><a href="#2、方案" class="headerlink" title="2、方案"></a>2、方案</h3><ul>
 <li><p>在<code>github</code>上 <strong>新建一个仓库</strong> ，主要用于存储图片，可以通过<code>url</code>访问到，也方便管理</p>
         
-          <a class="article-more-a" href="/2019/04/24/day-2019-04-24/#more">more >></a>
+          <a class="article-more-a" href="/2019/04/24/2019.04.24_blogphotoes/#more">more >></a>
         
       
 
@@ -383,7 +554,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/24/day-2019-04-24/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/04/24/2019.04.24_blogphotoes/">展开全文 >></a>
         </p>
       
 
@@ -415,19 +586,19 @@
 
 
   
-    <article id="post-day-2019-04-23" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-2019.04.23_hexoblog" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/23/day-2019-04-23/">史上最详细的hexo博客搭建教程</a>
+      <a class="article-title" href="/2019/04/23/2019.04.23_hexoblog/">史上最详细的hexo博客搭建教程</a>
     </h1>
   
 
         
-        <a href="/2019/04/23/day-2019-04-23/" class="archive-article-date">
+        <a href="/2019/04/23/2019.04.23_hexoblog/" class="archive-article-date">
   	<time datetime="2019-04-23T15:34:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-23</time>
 </a>
         
@@ -437,7 +608,7 @@
       
         <p><img src="/assets/blogimg/001.jpg" alt><br>
         
-          <a class="article-more-a" href="/2019/04/23/day-2019-04-23/#more">more >></a>
+          <a class="article-more-a" href="/2019/04/23/2019.04.23_hexoblog/#more">more >></a>
         
       
 
@@ -461,7 +632,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/23/day-2019-04-23/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/04/23/2019.04.23_hexoblog/">展开全文 >></a>
         </p>
       
 
@@ -493,19 +664,19 @@
 
 
   
-    <article id="post-day-2019-04-06" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-2019.04.06_helloworld" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/06/day-2019-04-06/">Hello World</a>
+      <a class="article-title" href="/2019/04/06/2019.04.06_helloworld/">Hello World</a>
     </h1>
   
 
         
-        <a href="/2019/04/06/day-2019-04-06/" class="archive-article-date">
+        <a href="/2019/04/06/2019.04.06_helloworld/" class="archive-article-date">
   	<time datetime="2019-04-06T12:14:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-06</time>
 </a>
         
@@ -518,7 +689,7 @@
 <p>在做毕业设计的过程中，不知怎的，突然很想搭建一个属于自己的博客。回想起上次产生搭建博客的念头，大概是在2018年的暑假，但后来由于种种原因就放弃了。</p>
 <p>大概花了两天的时间，参考了一大堆教程，走了很多弯路。期间还学习了一些HTML和CSS，虽然一点也没用上，但毕竟还是有所收获。<br>
         
-          <a class="article-more-a" href="/2019/04/06/day-2019-04-06/#more">more >></a>
+          <a class="article-more-a" href="/2019/04/06/2019.04.06_helloworld/#more">more >></a>
         
       
 
@@ -542,7 +713,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/06/day-2019-04-06/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/04/06/2019.04.06_helloworld/">展开全文 >></a>
         </p>
       
 
@@ -676,6 +847,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">gitbook</a>
               </li>
             
             <div class="clearfix"></div>
